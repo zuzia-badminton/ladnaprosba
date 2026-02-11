@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Zaproszenie</title>
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        button {
+            font-size: 20px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        #yes {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #no {
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="main">
+    <h1>Czy zechcesz ze mną zagrać debla w Łodzi ładnie proszę?</h1>
+    <div class="buttons">
+        <button id="yes">Tak</button>
+        <button id="no">Nie</button>
+    </div>
+</div>
+
+<audio id="fanfare">
+    <source src="https://www.soundjay.com/human/sounds/applause-8.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    let yesBtn = document.getElementById("yes");
+    let noBtn = document.getElementById("no");
+    let container = document.getElementById("main");
+    let fanfare = document.getElementById("fanfare");
+
+    noBtn.addEventListener("click", () => {
+        noBtn.style.transform = "scale(0.8)";
+        yesBtn.style.transform = "scale(1.2)";
+    });
+
+    yesBtn.addEventListener("click", () => {
+        container.innerHTML = "<h1>Dziękuję &lt;3</h1>";
+        fanfare.play();
+    });
+</script>
+
+</body>
+</html>
