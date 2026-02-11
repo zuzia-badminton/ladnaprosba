@@ -12,6 +12,7 @@
       align-items: center;
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      overflow: hidden;
     }
 
     .container {
@@ -20,6 +21,7 @@
       padding: 40px;
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      z-index: 2;
     }
 
     h1 {
@@ -50,6 +52,19 @@
       background-color: #f44336;
       color: white;
     }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+      }
+    }
+
+    @keyframes floatUp {
+      to {
+        transform: translateY(-120vh);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -75,17 +90,64 @@
     let yesScale = 1;
     let noScale = 1;
 
+    function createConfetti() {
+      for (let i = 0; i < 120; i++) {
+        const conf = document.createElement("div");
+        conf.style.position = "fixed";
+        conf.style.width = "10px";
+        conf.style.height = "10px";
+        conf.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 50%)`;
+        conf.style.top = "-10px";
+        conf.style.left = Math.random() * window.innerWidth + "px";
+        conf.style.borderRadius = "50%";
+        conf.style.zIndex = 1;
+        conf.style.animation = `fall ${3 + Math.random()*3}s linear forwards`;
+        document.body.appendChild(conf);
+
+        setTimeout(() => conf.remove(), 6000);
+      }
+    }
+
+    function createHearts() {
+      for (let i = 0; i < 40; i++) {
+        const heart = document.createElement("div");
+        heart.innerHTML = "❤️";
+        heart.style.position = "fixed";
+        heart.style.fontSize = "30px";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.top = window.innerHeight + "px";
+        heart.style.animation = `floatUp ${4 + Math.random()*3}s linear forwards`;
+        heart.style.zIndex = 1;
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 7000);
+      }
+    }
+
+    function celebrate() {
+      container.innerHTML = "<h1>Dziękuję &lt;3</h1>";
+      setTimeout(() => fanfare.play(), 200);
+      createConfetti();
+      createHearts();
+    }
+
     noBtn.addEventListener("click", () => {
-      yesScale += 0.2;      // "Tak" rośnie przy każdym kliknięciu
-      noScale -= 0.1;       // "Nie" się kurczy
+      yesScale += 0.2;
+      noScale -= 0.1;
 
       yesBtn.style.transform = `scale(${yesScale})`;
       noBtn.style.transform = `scale(${Math.max(noScale, 0.3)})`;
     });
 
     yesBtn.addEventListener("click", () => {
-      container.innerHTML = "<h1>Dziękuję &lt;3</h1>";
-      fanfare.play();
+      localStorage.setItem("accepted", "true");
+      celebrate();
+    });
+
+    window.addEventListener("load", () => {
+      if (localStorage.getItem("accepted") === "true") {
+        celebrate();
+      }
     });
   </script>
 
