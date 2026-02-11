@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Zaproszenie</title>
+  <title>Wybierz_mądrze</title>
   <style>
     body {
       height: 100vh;
@@ -126,7 +126,7 @@
 
     function celebrate() {
       container.innerHTML = "<h1>Dziękuję &lt;3</h1>";
-      setTimeout(() => fanfare.play(), 200);
+      fanfare.play();
       createConfetti();
       createHearts();
     }
@@ -139,16 +139,7 @@
       noBtn.style.transform = `scale(${Math.max(noScale, 0.3)})`;
     });
 
-    yesBtn.addEventListener("click", () => {
-      localStorage.setItem("accepted", "true");
-      celebrate();
-    });
-
-    window.addEventListener("load", () => {
-      if (localStorage.getItem("accepted") === "true") {
-        celebrate();
-      }
-    });
+    yesBtn.addEventListener("click", celebrate);
   </script>
 
 </body>
